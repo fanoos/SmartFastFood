@@ -94,6 +94,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private LoginButton loginButton;
     private CallbackManager callbackManager;
 
+    protected String ret;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,8 +164,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+
+    protected void Stampa(String s) {
+
+        mPasswordView.setText("");
+        Toast.makeText(LoginActivity.this,
+                s , Toast.LENGTH_LONG).show();
     }
 
 
@@ -271,6 +283,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+
+
         }
     }
 
@@ -414,19 +428,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 int statusCode = response.getStatusLine().getStatusCode();
                 final String responseBody = EntityUtils.toString(response.getEntity());
                 Log.d(TAG, "Signed in as: " + responseBody);
+
+                if(responseBody.equals("Your Password Must Contain At Least 8 Characters!")) {
+                    return "<8";
+                }
+
+
+
             } catch (ClientProtocolException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
             } catch (IOException e) {
                 Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-            return "ok";
+
+            Intent openPage1 = new Intent(LoginActivity.this,HomeLoginActivity.class);
+            // passo all'attivazione dell'activity Pagina.java
+            startActivity(openPage1);
+
+            return "lol";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals("ok")){
-                s="fatto";
+            if(s.equals("<8")){
+                mAuthTask = null;
+                showProgress(false);
+                Stampa(s);
             }
         }
 
