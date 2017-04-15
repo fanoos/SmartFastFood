@@ -8,4 +8,22 @@
     tools:context="com.example.fede_xps.smartfastfood.HomeLoginActivity"
     tools:showIn="@layout/app_bar_home_login">
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startQR"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>

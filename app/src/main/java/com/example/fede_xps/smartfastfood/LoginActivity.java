@@ -142,6 +142,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailView = (EditText) findViewById(R.id.email);
 
+        //DEBUG
+        Button b = (Button) findViewById(R.id.debl);
+        b.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                debugList();
+            }
+        });
+
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -168,6 +177,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+
     }
 
 
@@ -176,6 +188,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setText("");
         Toast.makeText(LoginActivity.this,
                 s , Toast.LENGTH_LONG).show();
+    }
+
+    public void debugList() {
+        String s = "[{id:1,owner_id:1,name:paninazzo,price:2,image:null},{id:1,owner_id:1,name:paninazzone,price:2,image:null}]";
+        Intent start = new Intent(LoginActivity.this, ListActivity.class);
+        start.putExtra("json", s);
+        startActivity(start);
+    }
+
+    protected void startHome(String s) {
+
+        Intent open = new Intent(LoginActivity.this,HomeLoginActivity.class);
+        open.putExtra("cookie", s);
+        startActivity(open);
+
     }
 
 
@@ -417,21 +444,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String TAG ="lol";
 
             try {
-                List nameValuePairs = new ArrayList(2);
-                nameValuePairs.add(new BasicNameValuePair("email", mEmail));
-                nameValuePairs.add(new BasicNameValuePair("password", mPassword));
                 httpGet.addHeader("email", mEmail);
                 httpGet.addHeader("password", mPassword);
 
 
                 HttpResponse response = httpClient.execute(httpGet);
-                int statusCode = response.getStatusLine().getStatusCode();
+
+                int statusCode= response.getStatusLine().getStatusCode();
+                if( statusCode != 200 ) {
+                    return "Errore server!";
+                }
+
                 final String responseBody = EntityUtils.toString(response.getEntity());
                 Log.d(TAG, "Signed in as: " + responseBody);
 
-                if(responseBody.equals("Your Password Must Contain At Least 8 Characters!")) {
-                    return "<8";
-                }
+                return responseBody;
 
 
 
@@ -441,21 +468,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.e(TAG, "Error sending ID token to backend.", e);
             }
 
-
-            Intent openPage1 = new Intent(LoginActivity.this,HomeLoginActivity.class);
-            // passo all'attivazione dell'activity Pagina.java
-            startActivity(openPage1);
-
-            return "lol";
+            return "default";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals("<8")){
-                mAuthTask = null;
-                showProgress(false);
+            mAuthTask = null;
+            showProgress(false);
+            if(s.equals("Your Password Must Contain At Least 8 Characters!"))
                 Stampa(s);
-            }
+            else
+                startHome(s);
         }
 
         @Override

@@ -36,7 +36,9 @@
         <activity
             android:name=".HomeLoginActivity"
             android:label="@string/title_activity_home_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListActivity" />
+        <activity android:name=".CartActivity"></activity>
     </application>
 
 </manifest>
