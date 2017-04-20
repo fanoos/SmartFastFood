@@ -1,10 +1,14 @@
 package com.example.fede_xps.smartfastfood;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,9 +51,9 @@ public class CartActivity extends AppCompatActivity {
             }
         }
 
-        EditText et = (EditText) findViewById(R.id.tot);
+        TextView et = (TextView) findViewById(R.id.tot);
 
-        et.setText("Tot: "+total);
+        et.setText("Tot: €"+total);
 
         ListView listView = (ListView) findViewById(R.id.listView2);
 
@@ -58,6 +62,24 @@ public class CartActivity extends AppCompatActivity {
 
 
         listView.setAdapter(adapter);
+
+        Button pay = (Button) findViewById(R.id.payC);
+        pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent start = new Intent(CartActivity.this, BookedActivity.class);
+                startActivity(start);
+            }
+        });
+
+        Button pay1 = (Button) findViewById(R.id.payP);
+        pay1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent start = new Intent(CartActivity.this, BookedActivity.class);
+                startActivity(start);
+            }
+        });
 
 
     }

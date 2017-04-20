@@ -9,7 +9,9 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/sfondo">
+
 
         <ListView
 
@@ -22,19 +24,28 @@
         </ListView>
 
 
-
         <TableRow>
 
-            <EditText
+
+
+            <TextView
                 android:id="@+id/tot"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:padding="10dp"/>
 
             <Button
-                android:id="@+id/pay"
+                android:id="@+id/payC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay" />
+                android:text="Pay with cash" />
+
+            <Button
+                android:id="@+id/payP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pay with PayPal" />
 
         </TableRow>
 

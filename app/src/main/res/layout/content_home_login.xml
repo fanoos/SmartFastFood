@@ -6,18 +6,16 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.fede_xps.smartfastfood.HomeLoginActivity"
-    tools:showIn="@layout/app_bar_home_login">
+    tools:showIn="@layout/app_bar_home_login"
+    android:background="@drawable/immagine">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/startQR"
-            android:clickable="true"/>
+
 
     </LinearLayout>
 

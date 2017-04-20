@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.params.Face;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -41,12 +42,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -59,6 +65,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -83,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private FacebookUserLoginTask mAuthTask2 = null;
 
     // UI references.
     private EditText mEmailView;
@@ -93,6 +102,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private TextView info;
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    private String id;
+    private String token;
 
     protected String ret;
 
@@ -100,31 +111,50 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        /*
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
-        */
 
-
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken!=null) {
+            LoginManager.getInstance().logOut();
+        }
         callbackManager = CallbackManager.Factory.create();
+
         info = (TextView)findViewById(R.id.info);
         loginButton = (LoginButton)findViewById(R.id.login_button);
-        //qua mettere codice della callback
+        loginButton.setReadPermissions(Arrays.asList("email"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                info.setText(
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );
+                showProgress(true);
 
-                Intent openPage1 = new Intent(LoginActivity.this,QRCodeActivity.class);
-                // passo all'attivazione dell'activity Pagina.java
-                startActivity(openPage1);
+                Log.d("DATI", loginResult.getAccessToken().getUserId() + "  "+ loginResult.getAccessToken().getToken());
+
+
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+                                String email=null;
+                                String name =null;
+                                try {
+                                    email = object.getString("email");
+                                    name = object.getString("name");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                goFacebook(email, name);
+                            }
+                        });
+
+                id = loginResult.getAccessToken().getUserId();
+                token = loginResult.getAccessToken().getToken();
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email");
+                request.setParameters(parameters);
+                request.executeAsync();
+
             }
 
             @Override
@@ -142,14 +172,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailView = (EditText) findViewById(R.id.email);
 
-        //DEBUG
-        Button b = (Button) findViewById(R.id.debl);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                debugList();
-            }
-        });
+
 
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -182,6 +205,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
+    protected void goFacebook(String email, String name) {
+        Log.d("FACEBOOK", email+" "+name);
+        mAuthTask2 = new FacebookUserLoginTask(id, token, email, name);
+        mAuthTask2.execute( (Void) null);
+    }
+
 
     protected void Stampa(String s) {
 
@@ -201,6 +230,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Intent open = new Intent(LoginActivity.this,HomeLoginActivity.class);
         open.putExtra("cookie", s);
+        showProgress(false);
+        open.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(open);
 
     }
@@ -484,6 +516,78 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onCancelled() {
             mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    public class FacebookUserLoginTask extends AsyncTask<Void, Void, String> {
+
+        private final String mEmail;
+        private final String mToken;
+        private final String mId;
+        private final String mName;
+
+        FacebookUserLoginTask(String id, String token, String email, String name) {
+            mEmail = email;
+            mToken=token;
+            mId=id;
+            mName=name;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet("http://smartfastfood-nikkolo94.c9users.io/FacLogin");
+
+            String TAG ="FACEBOOK LOGIN";
+
+            try {
+                httpGet.addHeader("email", mEmail);
+                httpGet.addHeader("atoken", mToken);
+                httpGet.addHeader("fid", mId);
+                httpGet.addHeader("name", mName);
+
+                HttpResponse response = httpClient.execute(httpGet);
+
+                int statusCode= response.getStatusLine().getStatusCode();
+                if( statusCode != 200 ) {
+                    return "Errore server!";
+                }
+
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                Log.d(TAG, "response: " + responseBody);
+
+                return responseBody;
+
+
+
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            } catch (IOException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            }
+
+            return "default";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            mAuthTask2 = null;
+            showProgress(false);
+
+            Log.d("RESULT", s);
+            startHome(s);
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask2 = null;
             showProgress(false);
         }
     }

@@ -38,7 +38,8 @@
             android:label="@string/title_activity_home_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ListActivity" />
-        <activity android:name=".CartActivity"></activity>
+        <activity android:name=".CartActivity" />
+        <activity android:name=".BookedActivity"></activity>
     </application>
 
 </manifest>

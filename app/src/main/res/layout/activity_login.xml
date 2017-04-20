@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.fede_xps.smartfastfood.LoginActivity">
+    tools:context="com.example.fede_xps.smartfastfood.LoginActivity"
+    android:background="@drawable/sfondo">
 
     <!-- Login progress -->
     <ProgressBar
@@ -71,6 +72,14 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"/>
+            <Button
+                android:id="@+id/register"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="REGISTER"
+                android:textStyle="bold"/>
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
@@ -89,11 +98,7 @@
                 android:textSize="18sp"
                 />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="debug list"
-                android:id="@+id/debl"/>
+
 
 
 

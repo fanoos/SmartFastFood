@@ -34,14 +34,15 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
     private QRCodeReaderView qrCodeReaderView;
     //private TextView resultTextView;
 
-    private int just;
+    private boolean just;
     private String cookieUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        just = 1;
+        just = false;
 
         int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
@@ -76,7 +77,11 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-
+        if(just) {
+            return;
+        }
+        Log.d("JUST", just+"");
+        just=true;
 
         Log.d("camera", text);
 
@@ -85,14 +90,12 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
         //chiamata al backend per ricevere la lista del menu
         ListRequestTask lr = new ListRequestTask(text, cookieUser);
         lr.execute((Void)null);
-
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        just=false;
         qrCodeReaderView.startCamera();
     }
 
@@ -106,20 +109,15 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
         //TODO INSERIRE QUI CODICE PER CREARE NUOVA INTENT A LISTA MENU
 
-        Log.d("trovato", s);
-
         if(s.equals("errore")) {
             qrCodeReaderView.startCamera();
             return;
         }
 
-        //qrCodeReaderView.startCamera();
-
         Intent start = new Intent(QRCodeActivity.this, ListActivity.class);
         start.putExtra("json", s);
+        //just=false;
         startActivity(start);
-
-
     }
 
 
@@ -169,8 +167,8 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
         @Override
         protected void onPostExecute(String s) {
-            //if(!s.equals("errore"))
-            creaLista(s);
+            if(!s.equals("default"))
+               creaLista(s);
 
         }
 
