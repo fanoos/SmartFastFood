@@ -545,7 +545,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(String s) {
             mAuthTask = null;
             showProgress(false);
-            if(s.equals("Your Password Must Contain At Least 8 Characters!"))
+            if(s.equals("Your Password Must Contain At Least 8 Characters!")||
+                    s.equals("Your Password Must Contain At Least 1 Number!")||
+                    s.equals("Your Password Must Contain At Least 1 Capital Letter!")||
+                    s.equals("Your Password Must Contain At Least 1 Lowercase Letter!")||
+                    s.equals("no, password") || s.equals("no, email"))
                 Stampa(s);
             else
                 startHome(s);
