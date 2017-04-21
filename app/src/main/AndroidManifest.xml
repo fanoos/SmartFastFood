@@ -39,7 +39,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ListActivity" />
         <activity android:name=".CartActivity" />
-        <activity android:name=".BookedActivity"></activity>
+        <activity android:name=".BookedActivity" />
+        <activity
+            android:name=".VendorHomeActivity"
+            android:label="@string/title_activity_vendor_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

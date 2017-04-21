@@ -65,6 +65,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -228,11 +229,48 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     protected void startHome(String s) {
 
-        Intent open = new Intent(LoginActivity.this,HomeLoginActivity.class);
-        open.putExtra("cookie", s);
+        JSONObject js=null;
+        try {
+            js = new JSONObject(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        String type = null;
+        Intent open = null;
+        try {
+            type=js.getString("type");
+            Log.d("RETURN", type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(type.equals("user")) {
+
+            open = new Intent(LoginActivity.this, HomeLoginActivity.class);
+            Log.d("LOGIN", "client");
+
+
+        } else {
+
+            open = new Intent(LoginActivity.this, VendorHomeActivity.class);
+            try {
+                open.putExtra("id", js.getString("mid"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("LOGIN", "vendor");
+
+        }
+
+        try {
+            open.putExtra("cookie", js.getString("token"));
+            Log.d("LOGIN", js.getString("token"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         showProgress(false);
-        open.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(open);
 
     }
