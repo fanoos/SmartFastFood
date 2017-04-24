@@ -17,6 +17,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -26,6 +27,11 @@ import java.util.ArrayList;
 
 public class VendorHomeActivity extends AppCompatActivity {
     ArrayList<Item> listdata;
+    String token;
+    String id;
+    boolean check;
+    CustomListViewAdapter adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +40,11 @@ public class VendorHomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        check=false;
 
-        String token= getIntent().getExtras().getString("cookie");
-        String id= getIntent().getExtras().getString("id");
+
+        token= getIntent().getExtras().getString("cookie");
+        id= getIntent().getExtras().getString("id");
         ListRequestTask lr =new ListRequestTask(token, id);
         lr.execute( (Void) null);
 
@@ -100,6 +108,7 @@ public class VendorHomeActivity extends AppCompatActivity {
     private void creaLista(String s) {
         JSONArray jArray = null;
         listdata = null;
+        adapter = null;
 
         try {
             jArray = new JSONArray(s);
@@ -108,7 +117,7 @@ public class VendorHomeActivity extends AppCompatActivity {
             if (jArray != null) {
                 for (int i=0;i<jArray.length();i++){
                     Item j = new Item(jArray.getJSONObject(i));
-                    Log.d("ITEM", j.getJson().toString());
+                    Log.d("ITEM", j.getJson().toString()+"\n");
                     listdata.add(j);
                 }
             }
@@ -118,27 +127,32 @@ public class VendorHomeActivity extends AppCompatActivity {
             Log.e("My App", "Could not parse malformed JSON: \"" + jArray + "\"");
         }
 
-        ListView listView = (ListView) findViewById(R.id.listView2);
+        listView = (ListView) findViewById(R.id.listView2);
 
 
-        CustomListViewAdapter adapter = new CustomListViewAdapter(this, R.layout.item, listdata);
+        adapter = new CustomListViewAdapter(this, R.layout.item, listdata);
 
 
 
         listView.setAdapter(adapter);
 
-        Button cart = (Button) findViewById(R.id.delete);
+        Button delete = (Button) findViewById(R.id.delete);
 
-        cart.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(check)
+                    return;
+
+                check = true;
 
                 ArrayList<String> al = new ArrayList<String>();
 
                 for(Item i: listdata) {
                     if(i.getCheck()) {
                         String s = i.getJson().toString();
-                        //Log.d("onClick", s);
+                        Log.d("onClick", s);
                         al.add(s);
                     }
                 }
@@ -150,8 +164,122 @@ public class VendorHomeActivity extends AppCompatActivity {
                     return;
                 }
 
-
+                DeleteItemTask dl = new DeleteItemTask(id, token, al);
+                dl.execute( (Void) null);
             }
         });
+    }
+
+    public class DeleteItemTask extends AsyncTask<Void, Void, String> {
+
+        private final String mToken;
+        private final String mId;
+        private final ArrayList<String> ala;
+
+        public DeleteItemTask(String id, String token, ArrayList<String> al) {
+
+            mToken=token;
+            mId=id;
+            ala = al;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet("http://smartfastfood-nikkolo94.c9users.io/delete/"+mId);
+
+            String TAG ="DELETE ITEM";
+
+            JSONArray ja = new JSONArray();
+
+            for(String i : ala) {
+                ja.put(i);
+            }
+
+            try {
+                httpGet.addHeader("cookie1", mToken);
+                httpGet.addHeader("list", ja.toString());
+
+                Log.d(TAG, "Start connection");
+                Log.d(TAG, ja.toString());
+
+                HttpResponse response = httpClient.execute(httpGet);
+
+                int statusCode= response.getStatusLine().getStatusCode();
+                if( statusCode != 200 ) {
+                    return "Errore server!";
+                }
+
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                Log.d(TAG, "response: " + responseBody);
+
+                return responseBody;
+
+
+
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            } catch (IOException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            }
+
+            return "default";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if(s.equals("no cookie") || s.equals("no id")) {
+                Log.d("VENDOR",s);
+
+            } else {
+
+                creaLista2(s);
+            }
+
+            check = false;
+
+
+        }
+
+        @Override
+        protected void onCancelled() {
+
+            check = false;
+
+
+        }
+    }
+
+    private void creaLista2(String s) {
+
+        JSONArray jArray = null;
+        listdata = null;
+
+        try {
+            jArray = new JSONArray(s);
+
+            listdata = new ArrayList<Item>();
+            if (jArray != null) {
+                for (int i=0;i<jArray.length();i++){
+                    Item j = new Item(jArray.getJSONObject(i));
+                    Log.d("ITEM", j.getJson().toString()+"\n");
+                    listdata.add(j);
+                }
+            }
+            Log.d("My App", jArray.toString());
+
+        } catch (Throwable t) {
+            Log.e("My App", "Could not parse malformed JSON: \"" + jArray + "\"");
+        }
+
+
+        adapter = null;
+        adapter = new CustomListViewAdapter(this, R.layout.item, listdata);
+        listView.setAdapter(adapter);
+
+
     }
 }

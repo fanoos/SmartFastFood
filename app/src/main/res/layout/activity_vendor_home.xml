@@ -4,22 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.fede_xps.smartfastfood.VendorHomeActivity">
+    tools:context="com.example.fede_xps.smartfastfood.VendorHomeActivity"
+    android:background="@drawable/sfondo">
 
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sfondo">
-        <ListView
+        android:weightSum="1">
 
-            android:id="@+id/listView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp">
+        <ScrollView
+            android:layout_height="413dp"
+            android:layout_weight="0.93"
+            android:fillViewport="true">
 
-        </ListView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ListView
+
+                android:id="@+id/listView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <Button
             android:id="@+id/delete"
@@ -28,6 +41,5 @@
             android:text="DELETE" />
 
     </TableLayout>
-
 
 </LinearLayout>

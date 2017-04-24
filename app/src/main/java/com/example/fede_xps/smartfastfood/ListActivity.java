@@ -69,9 +69,13 @@ public class ListActivity extends AppCompatActivity {
 
                 for(Item i: listdata) {
                     if(i.getCheck()) {
-                        String s = i.getJson().toString();
-                        //Log.d("onClick", s);
-                        al.add(s);
+                        try {
+                            String s = i.getJson().toString();
+                            //Log.d("onClick", s);
+                            al.add(s);
+                        } catch (Throwable t) {
+                            Log.e("My App", "Could not parse malformed JSON");
+                        }
                     }
                 }
 
