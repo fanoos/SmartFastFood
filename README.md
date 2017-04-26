@@ -34,3 +34,5 @@ It makes the restaurant smart and cool
 
 # Slide of intermediate presentation -> https://www.slideshare.net/FedericoPalmaro/smart-fast-food
 
+# Slide of 3rd presentation -> https://www.slideshare.net/FedericoPalmaro/smart-fast-food-75445849
+
