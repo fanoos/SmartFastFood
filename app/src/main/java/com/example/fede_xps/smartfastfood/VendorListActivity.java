@@ -1,10 +1,7 @@
 package com.example.fede_xps.smartfastfood;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,7 +14,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -25,7 +21,7 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class VendorHomeActivity extends AppCompatActivity {
+public class VendorListActivity extends AppCompatActivity {
     ArrayList<Item> listdata;
     String token;
     String id;
@@ -36,7 +32,7 @@ public class VendorHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vendor_home);
+        setContentView(R.layout.activity_vendor_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -158,7 +154,7 @@ public class VendorHomeActivity extends AppCompatActivity {
                 }
 
                 if(al.isEmpty()) {
-                    Toast.makeText(VendorHomeActivity.this,
+                    Toast.makeText(VendorListActivity.this,
                             "Seleziona almeno un argomento!" , Toast.LENGTH_LONG).show();
 
                     return;

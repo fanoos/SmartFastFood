@@ -33,6 +33,7 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    compile files('libs/PayPal_MPL.jar')
     testCompile 'junit:junit:4.12'
 }
 

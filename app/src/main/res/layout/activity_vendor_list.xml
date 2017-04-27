@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.fede_xps.smartfastfood.VendorHomeActivity"
+    tools:context="com.example.fede_xps.smartfastfood.VendorListActivity"
     android:background="@drawable/sfondo">
 
 

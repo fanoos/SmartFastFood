@@ -6,11 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.example.fede_xps.smartfastfood.ListActivity">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RelativeLayout01">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sfondo">
+        android:background="@drawable/sfondo"
+        android:id="@+id/table">
 
 
         <ListView
@@ -50,6 +55,10 @@
         </TableRow>
 
     </TableLayout>
+
+    </RelativeLayout>
+
+
 
 
 </LinearLayout>

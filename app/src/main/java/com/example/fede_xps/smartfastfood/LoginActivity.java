@@ -4,9 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,8 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -204,6 +199,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        Button b = (Button) findViewById(R.id.debug);
+        b.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent start = new Intent(LoginActivity.this, ListActivity.class);
+                Bundle extra = new Bundle();
+                start.putExtra("json", "[{\"id\":2,\"owner_id\":1,\"name\":\"pizza\",\"price\":3,\"image\":null},{\"id\":3,\"owner_id\":1,\"name\":\"carne\",\"price\":10,\"image\":null}]");
+
+                startActivity(start);
+            }
+        });
+
 
 
     }
@@ -260,7 +267,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         } else {
 
-            open = new Intent(LoginActivity.this, VendorHomeActivity.class);
+            open = new Intent(LoginActivity.this, VendorActivity.class);
             try {
                 open.putExtra("id", js.getString("mid"));
             } catch (JSONException e) {
