@@ -107,7 +107,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         if (pp == null) {  // Test to see if the library is already initialized
 
             // This main initialization call takes your Context, AppID, and target server
-            pp = PayPal.initWithAppID(this, "APP-80W284485P519543T", PayPal.ENV_NONE);
+            pp = PayPal.initWithAppID(this, "APP-80W284485P519543T", PayPal.ENV_SANDBOX);
 
             // Required settings:
 
@@ -138,7 +138,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         payment.setCurrencyType("USD");
 
         // Set the recipient for the payment (can be a phone number)
-        payment.setRecipient("Fede.nik94-buyer@gmail.com");
+        payment.setRecipient("baldoni@gmail.com");
 
         // Set the payment amount, excluding tax and shipping costs
         payment.setSubtotal(new BigDecimal(total));
@@ -154,6 +154,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         // Set the tax amount
         invoice.setTax(new BigDecimal(10));
+
+        Intent checkoutIntent = PayPal.getInstance().checkout(payment,this);
+        startActivity(checkoutIntent);
     }
 
     private void showPayPalButton() {
@@ -176,7 +179,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         ((RelativeLayout) findViewById(R.id.RelativeLayout01)).setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
-    public void PayPalActivityResult(int requestCode, int resultCode, Intent intent) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        Log.d("PAYPAL", "result");
         switch (resultCode) {
             // The payment succeeded
             case Activity.RESULT_OK:
@@ -195,6 +201,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 String errorMessage = intent.getStringExtra(PayPalActivity.EXTRA_ERROR_MESSAGE);
                 this.paymentFailed(errorID, errorMessage);
         }
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     private void paymentFailed(String errorID, String errorMessage) {

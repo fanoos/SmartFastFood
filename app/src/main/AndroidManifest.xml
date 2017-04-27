@@ -49,6 +49,8 @@
             android:name=".VendorActivity"
             android:label="@string/title_activity_vendor"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name="com.paypal.android.MEP.PayPalActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:configChanges="keyboardHidden|orientation"/>
     </application>
 
 </manifest>
