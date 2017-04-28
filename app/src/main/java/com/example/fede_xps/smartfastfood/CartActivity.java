@@ -1,12 +1,14 @@
 package com.example.fede_xps.smartfastfood;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,7 +28,7 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class CartActivity extends AppCompatActivity implements View.OnClickListener {
+public class CartActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     private static final int PAYPAL_BUTTON_ID = 50 ;
@@ -155,8 +157,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         // Set the tax amount
         invoice.setTax(new BigDecimal(10));
 
+
         Intent checkoutIntent = PayPal.getInstance().checkout(payment,this);
-        startActivity(checkoutIntent);
+        this.startActivityForResult(checkoutIntent, 1);
     }
 
     private void showPayPalButton() {
@@ -182,7 +185,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        Log.d("PAYPAL", "result");
+        Log.d("PAYPAL", "result"+resultCode);
         switch (resultCode) {
             // The payment succeeded
             case Activity.RESULT_OK:
@@ -200,8 +203,11 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 String errorID = intent.getStringExtra(PayPalActivity.EXTRA_ERROR_ID);
                 String errorMessage = intent.getStringExtra(PayPalActivity.EXTRA_ERROR_MESSAGE);
                 this.paymentFailed(errorID, errorMessage);
+
+            default:
+                super.onActivityResult(requestCode, resultCode, intent);
         }
-        super.onActivityResult(requestCode, resultCode, intent);
+
     }
 
     private void paymentFailed(String errorID, String errorMessage) {
@@ -214,5 +220,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void paymentSucceeded(String payKey) {
         Log.d("PAYPAL", payKey);
+        Intent intent = new Intent(CartActivity.this, BookedActivity.class);
+        startActivity(intent);
     }
+
 }
