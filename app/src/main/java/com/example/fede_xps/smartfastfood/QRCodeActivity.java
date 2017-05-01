@@ -107,7 +107,6 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
     protected void creaLista(String s) {
 
-        //TODO INSERIRE QUI CODICE PER CREARE NUOVA INTENT A LISTA MENU
 
         if(s.equals("errore")) {
             qrCodeReaderView.startCamera();
@@ -116,6 +115,7 @@ public class QRCodeActivity extends AppCompatActivity implements QRCodeReaderVie
 
         Intent start = new Intent(QRCodeActivity.this, ListActivity.class);
         start.putExtra("json", s);
+        start.putExtra("token", cookieUser);
         //just=false;
         startActivity(start);
     }

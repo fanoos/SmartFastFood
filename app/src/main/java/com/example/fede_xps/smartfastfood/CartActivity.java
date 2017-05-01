@@ -1,7 +1,6 @@
 package com.example.fede_xps.smartfastfood;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +25,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,10 +36,12 @@ import java.util.ArrayList;
 public class CartActivity extends AppCompatActivity implements View.OnClickListener{
 
 
-    private static final int PAYPAL_BUTTON_ID = 50 ;
     int total;
     private CheckoutButton launchPayPalButton;
     private boolean _paypalLibraryInit;
+
+    private ArrayList<String> list;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_cart);
 
         Bundle extra = getIntent().getBundleExtra("extra");
-        ArrayList<String> list = (ArrayList<String>) extra.getSerializable("list");
+        String token= getIntent().getExtras().getString("token");
+        list = (ArrayList<String>) extra.getSerializable("list");
 
         Log.d("qui",list.toString());
 
@@ -229,17 +229,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private void paymentSucceeded(String payKey) {
         Log.d("PAYPAL", payKey);
 
+        PaypalTask pt = new PaypalTask();
+        pt.execute( (Void) null);
+
         Intent intent = new Intent(CartActivity.this, BookedActivity.class);
         startActivity(intent);
     }
 
     public class PaypalTask extends AsyncTask<Void, Void, String> {
 
-        private final String mToken;
 
-        PaypalTask(String token) {
-            mToken=token;
-        }
+
 
         @Override
         protected String doInBackground(Void... params) {
@@ -248,14 +248,22 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
 
             HttpClient httpClient = new DefaultHttpClient();
+
+            //TODO put right url
             HttpGet httpGet = new HttpGet("http://smartfastfood-nikkolo94.c9users.io/");
 
             String TAG ="SendOrder";
 
+            JSONArray ja = new JSONArray();
+
+            for(String i : list) {
+                ja.put(i);
+            }
+
             try {
-                httpGet.addHeader("atoken", mToken);
+                httpGet.addHeader("atoken", token);
                 httpGet.addHeader("total", total+"");
-                httpGet.addHeader("order", "");
+                httpGet.addHeader("order", ja.toString());
 
                 HttpResponse response = httpClient.execute(httpGet);
 

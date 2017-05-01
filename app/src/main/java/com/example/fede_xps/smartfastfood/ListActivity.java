@@ -22,6 +22,7 @@ public class ListActivity extends AppCompatActivity {
     private ArrayAdapter<JSONObject> listAdapter;
     ArrayList<Item> listdata;
     CustomListViewAdapter adapter;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         String s= getIntent().getExtras().getString("json");
+        token= getIntent().getExtras().getString("token");
 
         Log.d("LIST", "stringa :"+s);
 
@@ -91,6 +93,7 @@ public class ListActivity extends AppCompatActivity {
                 Bundle extra = new Bundle();
                 extra.putSerializable("list", al);
                 start.putExtra("extra", extra);
+                start.putExtra("token", token);
 
                 startActivity(start);
             }
