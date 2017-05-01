@@ -232,8 +232,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         PaypalTask pt = new PaypalTask();
         pt.execute( (Void) null);
 
-        Intent intent = new Intent(CartActivity.this, BookedActivity.class);
-        startActivity(intent);
+
     }
 
     public class PaypalTask extends AsyncTask<Void, Void, String> {
@@ -249,8 +248,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
             HttpClient httpClient = new DefaultHttpClient();
 
-            //TODO put right url
-            HttpGet httpGet = new HttpGet("http://smartfastfood-nikkolo94.c9users.io/");
+            HttpGet httpGet = new HttpGet("http://smartfastfood-nikkolo94.c9users.io/orderIns");
 
             String TAG ="SendOrder";
 
@@ -259,17 +257,19 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             for(String i : list) {
                 ja.put(i);
             }
+            //Log.d(TAG, ja.toString());
 
             try {
                 httpGet.addHeader("atoken", token);
-                httpGet.addHeader("total", total+"");
                 httpGet.addHeader("order", ja.toString());
 
                 HttpResponse response = httpClient.execute(httpGet);
 
                 int statusCode= response.getStatusLine().getStatusCode();
+
                 if( statusCode != 200 ) {
                     return "Errore server!";
+                    //Log.d(TAG, statusCode+"");
                 }
 
                 final String responseBody = EntityUtils.toString(response.getEntity());
@@ -290,6 +290,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String s) {
+
+            Intent intent = new Intent(CartActivity.this, BookedActivity.class);
+            intent.putExtra("code", s);
+            startActivity(intent);
 
         }
 
