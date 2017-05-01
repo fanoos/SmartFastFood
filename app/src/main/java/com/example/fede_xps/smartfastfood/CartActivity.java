@@ -3,6 +3,7 @@ package com.example.fede_xps.smartfastfood;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +23,16 @@ import com.paypal.android.MEP.PayPalActivity;
 import com.paypal.android.MEP.PayPalInvoiceData;
 import com.paypal.android.MEP.PayPalPayment;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -133,7 +141,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View arg0) {
         // Create a basic PayPal payment
 
-        Log.d("PAYPAL", "mecellanegro");
+        Log.d("PAYPAL", "Start paypal");
         PayPalPayment payment = new PayPalPayment();
 
         // Set the currency type
@@ -220,8 +228,67 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void paymentSucceeded(String payKey) {
         Log.d("PAYPAL", payKey);
+
         Intent intent = new Intent(CartActivity.this, BookedActivity.class);
         startActivity(intent);
+    }
+
+    public class PaypalTask extends AsyncTask<Void, Void, String> {
+
+        private final String mToken;
+
+        PaypalTask(String token) {
+            mToken=token;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet("http://smartfastfood-nikkolo94.c9users.io/");
+
+            String TAG ="SendOrder";
+
+            try {
+                httpGet.addHeader("atoken", mToken);
+                httpGet.addHeader("total", total+"");
+                httpGet.addHeader("order", "");
+
+                HttpResponse response = httpClient.execute(httpGet);
+
+                int statusCode= response.getStatusLine().getStatusCode();
+                if( statusCode != 200 ) {
+                    return "Errore server!";
+                }
+
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                Log.d(TAG, "response: " + responseBody);
+
+                return responseBody;
+
+
+
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            } catch (IOException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            }
+
+            return "default";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
     }
 
 }
