@@ -48,9 +48,12 @@
         <activity
             android:name=".VendorActivity"
             android:label="@string/title_activity_vendor"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name="com.paypal.android.MEP.PayPalActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:configChanges="keyboardHidden|orientation"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.paypal.android.MEP.PayPalActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".AddActivity"></activity>
     </application>
 
 </manifest>

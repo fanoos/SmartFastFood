@@ -8,10 +8,14 @@
     android:background="@drawable/sfondo">
 
 
+
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1">
+
+
 
         <ScrollView
             android:layout_height="413dp"
@@ -30,15 +34,34 @@
 
             </ListView>
 
+
+
             </LinearLayout>
 
         </ScrollView>
 
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DELETE" />
+
+        <TableRow>
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="DELETE" />
+
+            <ImageView
+                android:layout_width="50dp"/>
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/add"
+                android:background="@drawable/plus"/>
+
+        </TableRow>
+
+
+
+
 
     </TableLayout>
 

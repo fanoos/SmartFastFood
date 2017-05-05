@@ -1,5 +1,6 @@
 package com.example.fede_xps.smartfastfood;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,11 +40,33 @@ public class VendorListActivity extends AppCompatActivity {
         check=false;
 
 
+
+
         token= getIntent().getExtras().getString("cookie");
         id= getIntent().getExtras().getString("id");
+
+        Button add = (Button) findViewById(R.id.add);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goAdd();
+            }
+        });
+
+
         ListRequestTask lr =new ListRequestTask(token, id);
         lr.execute( (Void) null);
 
+    }
+
+    private void goAdd() {
+
+        Intent intent = new Intent(VendorListActivity.this, AddActivity.class);
+
+        intent.putExtra("cookie", token);
+
+        startActivity(intent);
     }
 
     public class ListRequestTask extends AsyncTask<Void, Void, String> {
@@ -278,4 +301,7 @@ public class VendorListActivity extends AppCompatActivity {
 
 
     }
+
+
+
 }
