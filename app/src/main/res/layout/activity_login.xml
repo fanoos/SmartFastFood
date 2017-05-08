@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.fede_xps.smartfastfood.LoginActivity"
-    android:background="@drawable/sfondo">
+    android:background="@drawable/sfondo2">
 
     <!-- Login progress -->
     <ProgressBar
@@ -19,6 +19,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="150dp" />
 
     <ScrollView
         android:id="@+id/login_form"
@@ -41,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
+                    android:textColor="#ffffff"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -56,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
+                    android:textColor="#ffffff"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
