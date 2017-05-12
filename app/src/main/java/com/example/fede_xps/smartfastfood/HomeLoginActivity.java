@@ -1,9 +1,11 @@
 package com.example.fede_xps.smartfastfood;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,6 +17,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 
 public class HomeLoginActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,7 +97,9 @@ public class HomeLoginActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
             startQRC();
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.search_fast_food) {
+
+            startMap();
 
         } else if (id == R.id.nav_send) {
 
@@ -95,6 +108,12 @@ public class HomeLoginActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void startMap() {
+        Log.d("LOGIN", "mecellaschiavo");
+        Intent intent = new Intent(HomeLoginActivity.this, MapsActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -108,4 +127,7 @@ public class HomeLoginActivity extends AppCompatActivity
         start.putExtra("cookie", cookieUser);
         startActivity(start);
     }
+
+
+
 }
