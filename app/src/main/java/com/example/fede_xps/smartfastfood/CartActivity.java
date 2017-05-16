@@ -96,6 +96,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        /*
         Button pay1 = (Button) findViewById(R.id.payP);
         pay1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +105,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(start);
             }
         });
-
+*/
         initLibrary();
         showPayPalButton();
 

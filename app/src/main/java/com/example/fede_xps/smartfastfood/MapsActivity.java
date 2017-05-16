@@ -39,16 +39,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    private String cookieUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+
+        cookieUser = getIntent().getExtras().getString("cookie");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -74,6 +79,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
 
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(this)
@@ -157,9 +163,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker arg0) {
         Log.d("Fanculo", "Javaaaa");
-
-        Toast.makeText(MapsActivity.this, "ZIOOOPORCONEEEE!!!!!!!!", Toast.LENGTH_SHORT).show();  // display toast
+        arg0.showInfoWindow();
+        //Toast.makeText(MapsActivity.this, "ZIOOOPORCONEEEE!!!!!!!!", Toast.LENGTH_SHORT).show();  // display toast
         return true;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+        String url = "http://smartfastfood-nikkolo94.c9users.io/list/"+marker.getTag();
+        ListRequestTask lr = new ListRequestTask(url, cookieUser);
+        lr.execute( (Void) null);
+
     }
 
 
@@ -237,14 +252,80 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONObject jo = jArray.getJSONObject(i);
                     double lat = jo.getDouble("lat");
                     double lng = jo.getDouble("lng");
+                    int owner_id = jo.getInt("owner_id");
                     LatLng ll = new LatLng(lat, lng);
-                    mMap.addMarker(new MarkerOptions().position(ll));
+                    Marker mark = mMap.addMarker(new MarkerOptions().position(ll).title("mecellaporco"));
+                    mark.setTag(owner_id);
                 }
             }
 
         } catch (Throwable t) {
             Log.e("My App", "Could not parse malformed JSON: \"" + jArray + "\"");
         }
+    }
+
+
+    public class ListRequestTask extends AsyncTask<Void, Void, String> {
+
+        private final String mCookie;
+        private final String mUrl;
+
+        ListRequestTask(String url, String cookie) {
+            mUrl = url;
+            mCookie = cookie;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(mUrl);
+
+            String TAG ="ListRequest:";
+
+            try {
+                Log.d(TAG, mCookie);
+                httpGet.addHeader("cookie1", mCookie);
+
+
+                HttpResponse response = httpClient.execute(httpGet);
+                //int statusCode = response.getStatusLine().getStatusCode();
+                final String responseBody = EntityUtils.toString(response.getEntity());
+                Log.d(TAG, "Response: " + responseBody);
+
+                return responseBody;
+
+
+            } catch (ClientProtocolException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            } catch (IOException e) {
+                Log.e(TAG, "Error sending ID token to backend.", e);
+            }
+
+            return "default";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(!s.equals("default"))
+                creaLista(s);
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
+    }
+
+    private void creaLista(String s) {
+
+        Intent start = new Intent(MapsActivity.this, ListActivity.class);
+        start.putExtra("json", s);
+        start.putExtra("token", cookieUser);
+        startActivity(start);
+
     }
 
 

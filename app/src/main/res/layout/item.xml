@@ -19,6 +19,11 @@
                 android:padding="16dp"
                 />
 
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:id="@+id/image1"/>
+
 
             <TextView
                 android:id="@+id/name"

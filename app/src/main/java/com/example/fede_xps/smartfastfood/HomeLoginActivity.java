@@ -113,6 +113,7 @@ public class HomeLoginActivity extends AppCompatActivity
     private void startMap() {
         Log.d("LOGIN", "mecellaschiavo");
         Intent intent = new Intent(HomeLoginActivity.this, MapsActivity.class);
+        intent.putExtra("cookie", cookieUser);
         startActivity(intent);
     }
 

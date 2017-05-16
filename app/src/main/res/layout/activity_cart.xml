@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.fede_xps.smartfastfood.ListActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/RelativeLayout01">
+
 
 
 
@@ -50,17 +47,16 @@
                 android:layout_height="wrap_content"
                 android:text="Pay with cash" />
 
-            <Button
-                android:id="@+id/payP"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay with PayPal" />
+                android:id="@+id/RelativeLayout01"/>
 
         </TableRow>
 
     </TableLayout>
 
-    </RelativeLayout>
+
 
 
 
