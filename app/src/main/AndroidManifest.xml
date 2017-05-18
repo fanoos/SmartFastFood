@@ -42,18 +42,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".QRCodeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".QRCodeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomeLoginActivity"
             android:label="@string/title_activity_home_login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ListActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".CartActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".BookedActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CartActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BookedActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VendorListActivity"
             android:label="@string/title_activity_vendor_home"
@@ -81,7 +85,11 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".HomeEmployActivity"
+            android:label="@string/title_activity_home_employ"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

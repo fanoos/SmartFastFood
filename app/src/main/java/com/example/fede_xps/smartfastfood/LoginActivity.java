@@ -267,6 +267,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Log.d("LOGIN", "client");
 
 
+        } else if(type.equals("employ")) {
+
+            open = new Intent(LoginActivity.this, HomeEmployActivity.class);
+            try {
+                open.putExtra("id", js.getString("mid"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("LOGIN", "employ");
+
         } else {
 
             open = new Intent(LoginActivity.this, VendorActivity.class);
