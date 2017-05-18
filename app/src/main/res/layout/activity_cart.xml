@@ -41,16 +41,19 @@
                 android:textColor="#ffffff"
                 android:padding="10dp"/>
 
+            <RelativeLayout
+                android:layout_width="140dp"
+                android:layout_height="45dp"
+                android:id="@+id/RelativeLayout01" />
+
             <Button
                 android:id="@+id/payC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pay with cash" />
+                android:text="Pay with cash"
+                android:padding="10dp" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/RelativeLayout01"/>
+
 
         </TableRow>
 

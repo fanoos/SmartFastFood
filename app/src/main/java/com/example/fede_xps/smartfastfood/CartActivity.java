@@ -96,16 +96,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        /*
-        Button pay1 = (Button) findViewById(R.id.payP);
-        pay1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent start = new Intent(CartActivity.this, BookedActivity.class);
-                startActivity(start);
-            }
-        });
-*/
+
         initLibrary();
         showPayPalButton();
 
@@ -175,7 +166,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         // Generate the PayPal checkout button and save it for later use
         PayPal pp = PayPal.getInstance();
-        launchPayPalButton = pp.getCheckoutButton(this, PayPal.BUTTON_278x43, CheckoutButton.TEXT_PAY);
+        launchPayPalButton = pp.getCheckoutButton(this, PayPal.BUTTON_152x33, CheckoutButton.TEXT_PAY);
 
         // The OnClick listener for the checkout button
         launchPayPalButton.setOnClickListener(this);
