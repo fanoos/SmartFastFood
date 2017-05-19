@@ -253,8 +253,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double lat = jo.getDouble("lat");
                     double lng = jo.getDouble("lng");
                     int owner_id = jo.getInt("owner_id");
+                    String prova=jo.getString("name");
                     LatLng ll = new LatLng(lat, lng);
-                    Marker mark = mMap.addMarker(new MarkerOptions().position(ll).title("mecellaporco"));
+                    Marker mark = mMap.addMarker(new MarkerOptions().position(ll).title(prova));
+
                     mark.setTag(owner_id);
                 }
             }
