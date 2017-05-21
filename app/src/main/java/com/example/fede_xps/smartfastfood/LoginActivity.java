@@ -206,9 +206,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View v) {
                 Intent start = new Intent(LoginActivity.this, ListActivity.class);
-                Bundle extra = new Bundle();
-                start.putExtra("json", "[{\"id\":2,\"owner_id\":1,\"name\":\"pizza\",\"price\":3,\"image\":null},{\"id\":3,\"owner_id\":1,\"name\":\"carne\",\"price\":10,\"image\":null}]");
-
+                start.putExtra("json", "[{\"id\":2,\"owner_id\":1,\"name\":\"pizza\",\"price\":3,\"image\":\"http:\\/\\/www.neuromed.it\\/wp-content\\/uploads\\/2016\\/07\\/pasta.jpg\"},{\"id\":3,\"owner_id\":1,\"name\":\"carne\",\"price\":10,\"image\":\"http:\\/\\/www.my-personaltrainer.it\\/images\\/tag\\/Secondi_di_carne.jpg\"}]");
+                start.putExtra("token", "CndRKpicESxTOPClD4zlAg7pVBN9cOOS3unneQvh0sFnROmcejRNNqd3A11V");
                 startActivity(start);
             }
         });

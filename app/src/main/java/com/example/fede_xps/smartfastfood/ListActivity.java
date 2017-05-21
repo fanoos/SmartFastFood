@@ -33,6 +33,7 @@ public class ListActivity extends AppCompatActivity {
         token= getIntent().getExtras().getString("token");
 
         Log.d("LIST", "stringa :"+s);
+        Log.d("LIST", token);
 
         JSONArray jArray = null;
         listdata = null;

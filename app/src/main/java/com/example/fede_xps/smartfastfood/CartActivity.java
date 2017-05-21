@@ -41,7 +41,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private boolean _paypalLibraryInit;
 
     private ArrayList<String> list;
-    String token;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +49,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_cart);
 
         Bundle extra = getIntent().getBundleExtra("extra");
-        String token= getIntent().getExtras().getString("token");
+        token= getIntent().getExtras().getString("token");
         list = (ArrayList<String>) extra.getSerializable("list");
 
-        Log.d("qui",list.toString());
+        Log.d("qui", token);
 
         ArrayList<Item> arr = new ArrayList<Item>();
 
@@ -92,6 +92,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 Intent start = new Intent(CartActivity.this, BookedActivity.class);
+                start.putExtra("code", "ciao");
                 startActivity(start);
             }
         });
@@ -185,12 +186,17 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
+
+
         Log.d("PAYPAL", "result"+resultCode);
+
+        String token = intent.getExtras().getString("token");
+
         switch (resultCode) {
             // The payment succeeded
             case Activity.RESULT_OK:
                 String payKey = intent.getStringExtra(PayPalActivity.EXTRA_PAY_KEY);
-                this.paymentSucceeded(payKey);
+                this.paymentSucceeded(payKey, token);
                 break;
 
             // The payment was canceled
@@ -218,7 +224,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("PAYPAL", "cancel");
     }
 
-    private void paymentSucceeded(String payKey) {
+    private void paymentSucceeded(String payKey, String token) {
         Log.d("PAYPAL", payKey);
 
         PaypalTask pt = new PaypalTask();
@@ -228,9 +234,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public class PaypalTask extends AsyncTask<Void, Void, String> {
-
-
-
 
         @Override
         protected String doInBackground(Void... params) {
@@ -249,7 +252,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
             for(String i : list) {
                 ja.put(i);
             }
-            //Log.d(TAG, ja.toString());
+            Log.d(TAG, ja.toString());
+            Log.d(TAG, token);
 
             try {
                 httpGet.addHeader("atoken", token);

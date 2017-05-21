@@ -105,8 +105,10 @@ public class CustomListViewAdapter extends ArrayAdapter<Item> {
         holder.txtTitle.setText(name);
         holder.txtPrice.setText("€ "+price);
         holder.check.setTag(position);
+
         DownloadImage di = new DownloadImage(holder.imView);
         di.execute(image);
+
 
         if(layout==R.layout.item) {
             holder.check.setOnClickListener(new View.OnClickListener() {
