@@ -119,6 +119,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("DATI", loginResult.getAccessToken().getUserId() + "  "+ loginResult.getAccessToken().getToken());
 
 
+
+
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -144,6 +146,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 parameters.putString("fields", "id,name,email");
                 request.setParameters(parameters);
                 request.executeAsync();
+
+
 
             }
 
@@ -206,18 +210,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View v) {
                 Intent start = new Intent(LoginActivity.this, ListActivity.class);
-                start.putExtra("json", "[{\"id\":2,\"owner_id\":1,\"name\":\"pizza\",\"price\":3,\"image\":\"http:\\/\\/www.neuromed.it\\/wp-content\\/uploads\\/2016\\/07\\/pasta.jpg\"},{\"id\":3,\"owner_id\":1,\"name\":\"carne\",\"price\":10,\"image\":\"http:\\/\\/www.my-personaltrainer.it\\/images\\/tag\\/Secondi_di_carne.jpg\"}]");
+                start.putExtra("json", "[{\"id\":2,\"owner_id\":1,\"name\":\"pizza\",\"price\":3,"+
+                "\"image\":\"http:\\/\\/www.neuromed.it\\/wp-content\\/uploads\\/2016\\/07\\/pasta.jpg\"}"+
+                ",{\"id\":3,\"owner_id\":1,\"name\":\"carne\",\"price\":10,\"image\":\"http:\\/\\/"+
+                "www.my-personaltrainer.it\\/images\\/tag\\/Secondi_di_carne.jpg\"}]");
                 start.putExtra("token", "CndRKpicESxTOPClD4zlAg7pVBN9cOOS3unneQvh0sFnROmcejRNNqd3A11V");
                 startActivity(start);
             }
         });
 
 
-
+        /*
+        String s = getIntent().getExtras().getString("message");
+        if(s != null)
+            Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG);
+        */
     }
 
     private void attemptRegister() {
 
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        intent.putExtra("email", mEmailView.getText());
+        startActivity(intent);
 
     }
 

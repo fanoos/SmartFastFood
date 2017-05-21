@@ -114,5 +114,6 @@
     <string name="title_activity_vendor">VendorActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_home_employ">HomeEmployActivity</string>
+    <string name="title_activity_register">Sign Up</string>
 
 </resources>
