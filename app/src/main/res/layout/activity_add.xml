@@ -23,7 +23,8 @@
                     android:layout_width="350dp"
                     android:textColor="#ffffff"
                     android:layout_height="wrap_content"
-                    android:hint="Name"/>
+                    android:hint="Name"
+                    android:id="@+id/name"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -40,7 +41,8 @@
                     android:layout_width="350dp"
                     android:textColor="#ffffff"
                     android:layout_height="wrap_content"
-                    android:hint="Price"/>
+                    android:hint="Price"
+                    android:id="@+id/price"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -57,7 +59,8 @@
                     android:layout_width="350dp"
                     android:textColor="#ffffff"
                     android:layout_height="wrap_content"
-                    android:hint="Image"/>
+                    android:hint="Image"
+                    android:id="@+id/image1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -71,6 +74,7 @@
                 android:layout_width="wrap_content"
 
                 android:text="ADD"
+                android:id="@+id/add"
                 />
 
 

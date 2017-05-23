@@ -65,6 +65,8 @@ public class VendorListActivity extends AppCompatActivity {
         Intent intent = new Intent(VendorListActivity.this, AddActivity.class);
 
         intent.putExtra("cookie", token);
+        intent.putExtra("id", id);
+
 
         startActivity(intent);
     }
