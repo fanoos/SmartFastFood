@@ -14,6 +14,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import android.os.Handler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class OrderActivity extends AppCompatActivity {
     private CustomListViewAdapterOrder adapter;
     ArrayList<Item3> listdata;
     String owner_id;
+    private Handler h;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +35,20 @@ public class OrderActivity extends AppCompatActivity {
 
         owner_id = getIntent().getExtras().getString("owner_id");
 
-        ListRequestTask1 lr = new ListRequestTask1(owner_id);
-        lr.execute( (Void) null);
+        h = new Handler();
+        h.postDelayed(myRunnable2, 1000);
 
     }
+
+    private Runnable myRunnable2 = new Runnable() {
+        public void run() {
+            // do some thing
+            ListRequestTask1 lr = new ListRequestTask1(owner_id);
+            lr.execute( (Void) null);
+            h.postDelayed(myRunnable2, 5000);
+
+        }
+    };
 
     public void creaLista(String s) {
 
