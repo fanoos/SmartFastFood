@@ -57,7 +57,7 @@ public class CustomListViewAdapter extends ArrayAdapter<Item> {
     }
 
     /*private view holder class*/
-    private class ViewHolder {
+    public class ViewHolder {
         TextView txtPrice;
         TextView txtTitle;
         ImageView imView;

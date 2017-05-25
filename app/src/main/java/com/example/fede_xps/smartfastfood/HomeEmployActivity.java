@@ -28,5 +28,17 @@ public class HomeEmployActivity extends AppCompatActivity {
         id= getIntent().getExtras().getString("id");
 
 
+        Button order= (Button) findViewById(R.id.vorder1);
+
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeEmployActivity.this, OrderActivity.class);
+                intent.putExtra("owner_id", id);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

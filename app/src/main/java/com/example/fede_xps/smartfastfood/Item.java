@@ -37,37 +37,4 @@ public class Item implements Serializable{
     }
 
 
-
-    /*
-    private void writeObject(ObjectOutputStream oos) throws IOException {
-        oos.defaultWriteObject();
-        String s = null;
-        try {
-            s = json.toString(1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("WRITEos", s);
-        oos.writeChars(s);
-    }
-
-
-
-    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        String s=ois.readUTF();
-        Log.d("READos", s);
-        loadJSON(s);
-    }
-
-    private void loadJSON(String s) {
-
-        try {
-            json = new JSONObject(s);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-*/
 }
