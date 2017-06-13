@@ -80,7 +80,32 @@ The applicationa allows the log-in of various users. From the latter you can cho
 
 # Screenshots
 
-In this section, the screenshots of the most important application sections are shown.
+In this section, the screenshots of the most important application sections are shown. <br/>
+
+<b>Customer side</b><br/>
+<br/>
+<img src="http://i68.tinypic.com/18g0zt.png" width="200" height="361"/>&emsp;
+<img src="http://i63.tinypic.com/2ewfo5d.png" width="200" height="361"/>&emsp;
+<img src="http://i68.tinypic.com/3142wj4.jpg" width="200" height="361"/>&emsp;
+<br/>
+<img src="http://i67.tinypic.com/2afy8au.jpg" width="200" height="361"/>&emsp;
+<img src="http://i63.tinypic.com/zwcl5j.jpg" width="200" height="361"/>&emsp;
+<img src="http://i68.tinypic.com/sde937.jpg" width="200" height="361"/>&emsp;
+
+
+<b>Employee side</b><br/>
+<br/>
+<img src="http://i63.tinypic.com/x0pqbt.jpg" width="200" height="361"/>&emsp;
+<img src="http://i63.tinypic.com/ei05cn.png" width="200" height="361"/>
+
+<b>Owner side</b><br/>
+<br/>
+<img src="http://i66.tinypic.com/2w4mwdy.png" width="200" height="361"/>&emsp;
+<img src="http://i63.tinypic.com/ei05cn.jpg" width="200" height="361"/>&emsp;
+<img src="http://i65.tinypic.com/2evq002.png" width="200" height="361"/>&emsp;
+<img src="http://i68.tinypic.com/11bitet.png" width="200" height="361"/>
+
+
 
 # Members of this project
 
