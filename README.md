@@ -71,8 +71,6 @@ The main functionalities offered by the application are:<br/>
 - Google APIs
 <img src="http://i68.tinypic.com/21k08w9.png" width="200" height="150"/>
 
-
-
 # Architecture
 
 <img src="http://i63.tinypic.com/2nv5lw0.png"/>
@@ -81,6 +79,8 @@ Our front-end is made up of an <b>Android</b> operating system application. <br/
 The applicationa allows the log-in of various users. From the latter you can choose the menus and then pay them. Payment is made through the <b>Paypal API</b>. All is handled by the <b>c9.io</b> back-end with the <b>laravel</b> framework with the language <b>php</b> . The DBMS that saves all transactions and data is <b>MySql</b> .
 
 # Screenshots
+
+In this section, the screenshots of the most important applications sections are shown.
 
 # Members of this project
 
