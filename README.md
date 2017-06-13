@@ -80,7 +80,7 @@ The applicationa allows the log-in of various users. From the latter you can cho
 
 # Screenshots
 
-In this section, the screenshots of the most important applications sections are shown.
+In this section, the screenshots of the most important application sections are shown.
 
 # Members of this project
 
