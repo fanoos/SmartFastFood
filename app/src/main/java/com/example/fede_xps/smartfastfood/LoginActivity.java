@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
 
-
+/*
         Button b = (Button) findViewById(R.id.debug);
         b.setOnClickListener(new OnClickListener() {
             @Override
@@ -218,6 +218,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(start);
             }
         });
+        */
 
 
         /*

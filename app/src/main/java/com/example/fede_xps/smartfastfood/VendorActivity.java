@@ -43,5 +43,14 @@ public class VendorActivity extends AppCompatActivity {
                 startActivity(open);
             }
         });
+
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VendorActivity.this, OrderActivity.class);
+                intent.putExtra("owner_id", id);
+                startActivity(intent);
+            }
+        });
     }
 }

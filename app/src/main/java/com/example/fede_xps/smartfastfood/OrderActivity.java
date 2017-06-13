@@ -1,10 +1,14 @@
 package com.example.fede_xps.smartfastfood;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -65,6 +69,21 @@ public class OrderActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView3);
         adapter = new CustomListViewAdapterOrder(this, R.layout.item3, listdata);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                TextView tv = (TextView) arg1.findViewById(R.id.number);
+                String code = tv.getText().toString();
+
+                Intent intent = new Intent(OrderActivity.this, ShowOrderActivity.class);
+                intent.putExtra("code", code);
+                intent.putExtra("token", owner_id);
+                startActivity(intent);
+
+            }
+        });
     }
 
     public class ListRequestTask1 extends AsyncTask<Void, Void, String> {
