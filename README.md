@@ -96,7 +96,8 @@ In this section, the screenshots of the most important application sections are 
 <b>Employee side</b><br/>
 <br/>
 <img src="http://i63.tinypic.com/x0pqbt.jpg" width="200" height="361"/>&emsp;
-<img src="http://i63.tinypic.com/ei05cn.png" width="200" height="361"/>
+<img src="http://i63.tinypic.com/ei05cn.png" width="200" height="361"/>&emsp:
+<img src="http://i63.tinypic.com/30m5m3d.png" width="200" height="361"/>
 
 <b>Owner side</b><br/>
 <br/>
